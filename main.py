@@ -22,7 +22,7 @@ else:
 parameters = {
     "function": "TIME_SERIES_DAILY_ADJUSTED",
     "symbol": COMPANY_NAME,
-    "apikey": "6AJTURJDZA3JAFMX"
+    "apikey": "replace with your own alpha vantage api key"
 }
 stock_data = requests.get(url="https://www.alphavantage.co/query?", params=parameters).json()
 yesterday_stock_data = stock_data['Time Series (Daily)'][str(yesterday_date)]['4. close']
@@ -35,28 +35,28 @@ parameters1 = {
     "from": day_before_yesterday_date,
     "to": yesterday_date,
     "sortby": "popularity",
-    "apikey": "c9a58039e45c43b799d4d64fd4d974b1",
+    "apikey": "replace with your own news api key",
 }
 news_data = requests.get(url="https://newsapi.org/v2/everything?",params=parameters1).json()
 news_title = news_data["articles"][0]["title"]
 news_brief = news_data["articles"][0]["content"]
 # STEP 3: Use https://www.twilio.com
 # Send a separate message with the percentage change and each article's title and description to your phone number.
-account_sid = "AC2ab0b55d07f4959a9eefb943bbefc55d"
-auth_token = "748ce277b3911dfa6180947788ee5438"
+account_sid = "Replace your own tiwilio account_sid"
+auth_token = "Replace your own tiwilio auth token"
 if stock_percentage >= 5:
     client = Client(account_sid, auth_token)
     message = client.messages \
         .create(
               body=f"APPLE: 🔺{stock_percentage}%\nHeadLine: {news_title}\nBrief: {news_brief}",
-              from_='+13184884454',
-              to='+919047989145'
+              from_='tiwilio phone number',
+              to='your phone number'
               )
 if stock_percentage < 0:
     client = Client(account_sid, auth_token)
     message = client.messages \
         .create(
               body=f"APPLE: 🔻{stock_percentage}%\nHeadLine: {news_title}\nBrief: {news_brief}",
-              from_='+13184884454',
-              to='+919047989145'
+              from_='tiwilio phone number',
+              to='your phone number'
                 )
